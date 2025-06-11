@@ -2,38 +2,39 @@ package com.danyelbarboza.volatility_monitor.client;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.util.List;
 
+import lombok.Data;
 import yahoofinance.Stock;
 import yahoofinance.YahooFinance;
 
+@Data
 public class YahooQuoteClient {
 
     private Stock stock;
     private BigDecimal close_price;
-    private BigDecimal atr_14;
+    private BigDecimal change_in_percent;
     private Timestamp record_timestamp;
     
     public YahooQuoteClient() {
     }
 
-    public YahooQuoteClient(Stock stock, BigDecimal close_price, BigDecimal atr_14, Timestamp record_timestamp) {
+    public YahooQuoteClient(Stock stock, BigDecimal close_price, BigDecimal change_in_percent, Timestamp record_timestamp) {
         this.stock = stock;
         this.close_price = close_price;
-        this.atr_14 = atr_14;
+        this.change_in_percent = change_in_percent;
         this.record_timestamp = record_timestamp;
     }
 
-    public YahooQuoteClient getFinancialInformation(String ticker) {
+    public YahooQuoteClient getFinancialInformation(String stock) {
         try {
-            Stock stock = YahooFinance.get(ticker);
-            BigDecimal close_price = stock.getQuote().getPrice();
-            BigDecimal atr_14 = stock.getQuote().getChangeInPercent();
+            Stock stockInformation = YahooFinance.get(stock);
+            BigDecimal close_price = stockInformation.getQuote().getPrice();
+            BigDecimal change_in_percent = stockInformation.getQuote().getChangeInPercent();
             Timestamp record_timestamp = new Timestamp(System.currentTimeMillis());
 
-            YahooQuoteClient stockInformation = new YahooQuoteClient(stock, close_price, atr_14, record_timestamp);
+            YahooQuoteClient result = new YahooQuoteClient(stockInformation, close_price, change_in_percent, record_timestamp);
             
-            return stockInformation;
+            return result;
         } catch (Exception e) {
             return null;
         }

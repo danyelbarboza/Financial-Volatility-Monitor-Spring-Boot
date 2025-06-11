@@ -1,5 +1,6 @@
 package com.danyelbarboza.volatility_monitor.entity;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 import jakarta.persistence.Column;
@@ -24,11 +25,21 @@ public class FinancialAssetVolatility {
     private String ticker;
 
     @Column(name = "close_price")
-    private Double closePrice;
+    private BigDecimal closePrice;
 
     @Column(name = "atr_14")
-    private Double atr14;
+    private BigDecimal atr14;
 
     @Column(name = "record_timestamp")
     private Timestamp recordTimestamp;
+
+    public FinancialAssetVolatility() {
+    }
+
+    public FinancialAssetVolatility(String ticker, BigDecimal closePrice, BigDecimal atr14, Timestamp recordTimestamp) {
+        this.ticker = ticker;
+        this.closePrice = closePrice;
+        this.atr14 = atr14;
+        this.recordTimestamp = recordTimestamp;
+    }
 }
