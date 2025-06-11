@@ -10,23 +10,33 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.danyelbarboza.volatility_monitor.entity.FinancialAssetVolatility;
+import com.danyelbarboza.volatility_monitor.entity.StocksToMonitor;
 import com.danyelbarboza.volatility_monitor.service.FinancialAssetVolatilityService;
+import com.danyelbarboza.volatility_monitor.service.StocksToMonitorService;
 
 @RestController
 @RequestMapping("/api/v1")
 public class FinancialAssetVolatilityController {
 
     private FinancialAssetVolatilityService financialAssetVolatilityService;
+    private StocksToMonitorService stocksToMonitorService;
     
     @Autowired
-    public FinancialAssetVolatilityController(FinancialAssetVolatilityService financialAssetVolatilityService) {
+    public FinancialAssetVolatilityController(FinancialAssetVolatilityService financialAssetVolatilityService, StocksToMonitorService stocksToMonitorService) {
         this.financialAssetVolatilityService = financialAssetVolatilityService;
+        this.stocksToMonitorService = stocksToMonitorService;
     }
     
     @GetMapping("/finav")
     public ResponseEntity<List<FinancialAssetVolatility>> getAllFinancialAssetVolatility() {
         List<FinancialAssetVolatility> financialAssetVolatilityList = financialAssetVolatilityService.getAllFinancialAssetVolatility();
         return ResponseEntity.ok(financialAssetVolatilityList);
+    }
+
+    @GetMapping("/stocks")
+    public ResponseEntity<List<StocksToMonitor>> getAllStocksToMonitor() {
+        List<StocksToMonitor> stocksToMonitorList = stocksToMonitorService.getAllStocksToMonitor();
+        return ResponseEntity.ok(stocksToMonitorList);
     }
 
     @PostMapping("/monitor")

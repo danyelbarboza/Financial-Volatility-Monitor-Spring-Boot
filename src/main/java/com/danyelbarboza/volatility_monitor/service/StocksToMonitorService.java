@@ -1,5 +1,7 @@
 package com.danyelbarboza.volatility_monitor.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +18,10 @@ public class StocksToMonitorService {
     public StocksToMonitorService(StockToMonitorRespository stockToMonitorRespository, EntityManager entityManager) {
         this.stockToMonitorRespository = stockToMonitorRespository;
         this.entityManager = entityManager;
+    }
+
+    public List<StocksToMonitor> getAllStocksToMonitor() {
+        return stockToMonitorRespository.findAll();
     }
     
     @Transactional
