@@ -2,7 +2,7 @@
 
 Um serviço de backend construído em Java e Spring Boot para monitorar a volatilidade de ativos financeiros da bolsa brasileira. A aplicação consome dados da API Brapi.dev, calcula o indicador ATR (Average True Range) e persiste o histórico em um banco de dados MySQL para análise.
 
-## 🚀 Funcionalidades Principais
+## Funcionalidades Principais
 
 - **Coleta de Dados Históricos**: Busca automática de dados de mercado (Abertura, Máxima, Mínima e Fechamento) da API da Brapi.
 - **Cálculo de Volatilidade**: Implementa a lógica para calcular o ATR (Average True Range) de 14 períodos, um indicador clássico para medir a volatilidade de um ativo.
@@ -10,7 +10,7 @@ Um serviço de backend construído em Java e Spring Boot para monitorar a volati
 - **Persistência de Dados**: Salva o histórico de volatilidade (Ticker, Preço de Fechamento, Valor do ATR e Data) em um banco de dados MySQL.
 - **API REST Gerenciável**: Expõe endpoints para listar os dados de volatilidade e para adicionar, atualizar e remover os ativos que devem ser monitorados.
 
-## 🛠️ Tecnologias Utilizadas
+## Tecnologias Utilizadas
 
 - Java 21
 - Spring Boot 3.5.0
@@ -21,14 +21,14 @@ Um serviço de backend construído em Java e Spring Boot para monitorar a volati
 - Lombok para reduzir código boilerplate.
 - Maven para gerenciamento de dependências.
 
-## 📋 Pré-requisitos para Execução
+## Pré-requisitos para Execução
 
 - Java JDK 21 ou superior instalado.
 - Maven configurado nas variáveis de ambiente.
 - Uma instância do MySQL ativa e acessível.
 - Um token de acesso da API Brapi.dev. Você pode obtê-lo gratuitamente no site oficial.
 
-## ⚙️ Configuração e Execução
+## Configuração e Execução
 
 ### Clone o repositório:
 
@@ -64,7 +64,7 @@ Utilize o Maven Wrapper para iniciar o serviço:
 
 Você também pode executar a classe principal `VolatilityMonitorApplication.java` diretamente da sua IDE.
 
-## 🌐 Endpoints da API
+## Endpoints da API
 
 A aplicação expõe os seguintes endpoints para interação:
 

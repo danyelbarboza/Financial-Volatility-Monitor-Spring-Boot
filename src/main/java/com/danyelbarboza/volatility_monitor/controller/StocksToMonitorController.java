@@ -48,4 +48,10 @@ public class StocksToMonitorController {
         stocksToMonitorService.deleteStocksToMonitor(id);
         return ResponseEntity.ok("Stock deleted successfully");
     }
+
+    @PostMapping("/deleteAll")
+    public ResponseEntity<String> deleteAllStocksToMonitor() {
+        stocksToMonitorService.deleteAllStocksToMonitor();
+        return ResponseEntity.ok("All stocks deleted successfully");
+    }
 }

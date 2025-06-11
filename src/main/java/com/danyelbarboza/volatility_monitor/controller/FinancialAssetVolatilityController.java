@@ -11,9 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.danyelbarboza.volatility_monitor.entity.FinancialAssetVolatility;
-import com.danyelbarboza.volatility_monitor.entity.StocksToMonitor;
 import com.danyelbarboza.volatility_monitor.service.FinancialAssetVolatilityService;
-import com.danyelbarboza.volatility_monitor.service.StocksToMonitorService;
 
 @RestController
 @RequestMapping("/api/finav")
@@ -50,6 +48,12 @@ public class FinancialAssetVolatilityController {
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
+    }
+
+    @PostMapping("/deleteAll")
+    public ResponseEntity<String> deleteAllFinancialAssetVolatility() {
+        financialAssetVolatilityService.deleteAllFinancialAssetVolatility();
+        return ResponseEntity.ok("All financial asset volatility deleted successfully");
     }
 
     /*

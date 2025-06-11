@@ -10,13 +10,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.danyelbarboza.volatility_monitor.dao.FinancialAssetVolatilityRepository;
-import com.danyelbarboza.volatility_monitor.entity.FinancialAssetVolatility;
-import com.danyelbarboza.volatility_monitor.entity.StocksToMonitor;
-import com.danyelbarboza.volatility_monitor.service.BrapiApiService;
 import com.danyelbarboza.volatility_monitor.dto.AssetResultDTO;
 import com.danyelbarboza.volatility_monitor.dto.BrapiResponseDTO;
 import com.danyelbarboza.volatility_monitor.dto.HistoricalDataPriceDTO;
-import com.danyelbarboza.volatility_monitor.service.AtrCalculationService;
+import com.danyelbarboza.volatility_monitor.entity.FinancialAssetVolatility;
+import com.danyelbarboza.volatility_monitor.entity.StocksToMonitor;
 
 import jakarta.persistence.EntityManager;
 
@@ -120,5 +118,10 @@ public class FinancialAssetVolatilityService {
     @Transactional
     public void saveFinancialAssetVolatility(FinancialAssetVolatility financialAssetVolatility) {
         financialAssetVolatilityRepository.save(financialAssetVolatility);
+    }
+
+    @Transactional
+    public void deleteAllFinancialAssetVolatility() {
+        financialAssetVolatilityRepository.deleteAll();
     }
 }
