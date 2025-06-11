@@ -13,7 +13,7 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "financial_asset_volatility")
-public class FinancialData {
+public class FinancialAssetVolatility {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
