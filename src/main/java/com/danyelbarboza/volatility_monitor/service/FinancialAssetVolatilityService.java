@@ -34,8 +34,13 @@ public class FinancialAssetVolatilityService {
         for (StocksToMonitor stock : stocksToMonitor) {
             YahooQuoteClient yahooQuoteClient = new YahooQuoteClient();
             YahooQuoteClient stockInformation = yahooQuoteClient.getFinancialInformation(stock.getStock());
-            FinancialAssetVolatility financialAssetVolatility = new FinancialAssetVolatility(stock.getStock(), stockInformation.getClose_price(), stockInformation.getChange_in_percent(), stockInformation.getRecord_timestamp());
-            saveFinancialAssetVolatility(financialAssetVolatility);
+            if (stockInformation != null) {
+                FinancialAssetVolatility financialAssetVolatility = new FinancialAssetVolatility(stock.getStock(), stockInformation.getClose_price(), stockInformation.getChange_in_percent(), stockInformation.getRecord_timestamp());
+                saveFinancialAssetVolatility(financialAssetVolatility);
+            }
+            else {
+                throw new RuntimeException("Stock information not found");
+            }
         } 
     }
 
