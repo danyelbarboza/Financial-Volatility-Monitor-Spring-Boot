@@ -1,4 +1,3 @@
-```markdown
 # Financial Volatility Monitor - Spring Boot
 
 Um serviço de backend construído em Java e Spring Boot para monitorar a volatilidade de ativos financeiros da bolsa brasileira. A aplicação consome dados da API Brapi.dev, calcula o indicador ATR (Average True Range) e persiste o histórico em um banco de dados MySQL para análise.
@@ -105,8 +104,6 @@ A aplicação expõe os seguintes endpoints para interação:
 
 - **POST `/api/finav/monitor/{stock}`**  
   Dispara manualmente a rotina para um único ativo específico (ex: `PETR4`).
-```
-
 
 ### Aviso
 
