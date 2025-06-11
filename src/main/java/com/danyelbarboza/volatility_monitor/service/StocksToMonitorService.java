@@ -28,5 +28,34 @@ public class StocksToMonitorService {
     public void saveStocksToMonitor(StocksToMonitor stocksToMonitor) {
         stockToMonitorRespository.save(stocksToMonitor);
     }
+
+    @Transactional
+    public void deleteStocksToMonitor(Long id) {
+        stockToMonitorRespository.deleteById(id);
+    }
+
+    @Transactional
+    public void deleteAllStocksToMonitor() {
+        stockToMonitorRespository.deleteAll();
+    }
+
+    @Transactional
+    public void addStocksToMonitor(String stock) {
+        StocksToMonitor stocksToMonitor = new StocksToMonitor();
+        stocksToMonitor.setStock(stock);
+        stockToMonitorRespository.save(stocksToMonitor);
+    }
+
+    @Transactional
+    public void updateStocksToMonitor(Long id, String stock) {
+        StocksToMonitor stocksToMonitor = stockToMonitorRespository.findById(id).orElse(null);
+        if (stocksToMonitor != null) {
+            stocksToMonitor.setStock(stock);
+            stockToMonitorRespository.save(stocksToMonitor);
+        } else {
+            throw new RuntimeException("Stock not found");
+        }
+    }
+    
     
 }

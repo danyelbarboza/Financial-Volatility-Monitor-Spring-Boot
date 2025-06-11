@@ -10,6 +10,7 @@ public class VolatilityMonitorApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(VolatilityMonitorApplication.class, args);
+		
 	}
 
 }

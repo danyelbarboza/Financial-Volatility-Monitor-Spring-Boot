@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,34 +16,36 @@ import com.danyelbarboza.volatility_monitor.service.FinancialAssetVolatilityServ
 import com.danyelbarboza.volatility_monitor.service.StocksToMonitorService;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/finav")
 public class FinancialAssetVolatilityController {
 
     private FinancialAssetVolatilityService financialAssetVolatilityService;
-    private StocksToMonitorService stocksToMonitorService;
     
     @Autowired
-    public FinancialAssetVolatilityController(FinancialAssetVolatilityService financialAssetVolatilityService, StocksToMonitorService stocksToMonitorService) {
+    public FinancialAssetVolatilityController(FinancialAssetVolatilityService financialAssetVolatilityService) {
         this.financialAssetVolatilityService = financialAssetVolatilityService;
-        this.stocksToMonitorService = stocksToMonitorService;
     }
     
-    @GetMapping("/finav")
+    @GetMapping("/all")
     public ResponseEntity<List<FinancialAssetVolatility>> getAllFinancialAssetVolatility() {
         List<FinancialAssetVolatility> financialAssetVolatilityList = financialAssetVolatilityService.getAllFinancialAssetVolatility();
         return ResponseEntity.ok(financialAssetVolatilityList);
     }
 
-    @GetMapping("/stocks")
-    public ResponseEntity<List<StocksToMonitor>> getAllStocksToMonitor() {
-        List<StocksToMonitor> stocksToMonitorList = stocksToMonitorService.getAllStocksToMonitor();
-        return ResponseEntity.ok(stocksToMonitorList);
+    @PostMapping("/monitor")
+    public ResponseEntity<String> monitorAllFinancialAssetVolatility() {
+        try {
+            financialAssetVolatilityService.monitorAllFinancialAssetVolatility();
+            return ResponseEntity.ok("Financial asset volatility monitored successfully");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
-    @PostMapping("/monitor")
-    public ResponseEntity<String> monitorFinancialAssetVolatility() {
+    @PostMapping("/monitor/{stock}")
+    public ResponseEntity<String> monitorFinancialAssetVolatility(@PathVariable String stock) {
         try {
-            financialAssetVolatilityService.monitorFinancialAssetVolatility();
+            financialAssetVolatilityService.monitorFinancialAssetVolatility(stock);
             return ResponseEntity.ok("Financial asset volatility monitored successfully");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());

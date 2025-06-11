@@ -29,11 +29,11 @@ public class FinancialAssetVolatilityService {
     
     
     
-    public FinancialAssetVolatilityService(FinancialAssetVolatilityRepository financialAssetVolatilityRepository, EntityManager entityManager, BrapiApiService brapiApiService) {
+    public FinancialAssetVolatilityService(FinancialAssetVolatilityRepository financialAssetVolatilityRepository, EntityManager entityManager, BrapiApiService brapiApiService, AtrCalculationService atrCalculationService) {
         this.financialAssetVolatilityRepository = financialAssetVolatilityRepository;
         this.entityManager = entityManager;
         this.brapiApiService = brapiApiService;
-        this.atrCalculationService = new AtrCalculationService();
+        this.atrCalculationService = atrCalculationService;
     }
     
     public List<FinancialAssetVolatility> getAllFinancialAssetVolatility() {
@@ -42,7 +42,7 @@ public class FinancialAssetVolatilityService {
 
     @Scheduled(cron = "0 0 18 * * MON-FRI")
     @Transactional
-    public void monitorFinancialAssetVolatility() {
+    public void monitorAllFinancialAssetVolatility() {
         List<StocksToMonitor> stocksToMonitor = entityManager.createQuery("SELECT s FROM StocksToMonitor s", StocksToMonitor.class).getResultList();
         System.out.println("Iniciando monitoramento para " + stocksToMonitor.size() + " ativos...");
 
@@ -82,6 +82,39 @@ public class FinancialAssetVolatilityService {
     }
     System.out.println("Monitoramento finalizado.");
     } 
+
+    @Transactional
+    public void monitorFinancialAssetVolatility(String stock) {
+        BrapiResponseDTO stockInformation = brapiApiService.getAssetHistoricalData(stock);
+        try {
+            if (stockInformation == null || stockInformation.getResults() == null || stockInformation.getResults().isEmpty()) {
+                System.err.println("Não foram encontrados resultados para o ticker: " + stock);
+            }
+            
+        AssetResultDTO result = stockInformation.getResults().get(0);
+        List<HistoricalDataPriceDTO> historicalData = result.getHistoricalDataPrice();
+
+        if (historicalData == null || historicalData.isEmpty()) {
+            System.err.println("Não foram encontrados dados históricos para o ticker: " + stock);
+        }
+            
+        BigDecimal atr14 = atrCalculationService.calculate(historicalData);
+
+        BigDecimal closePrice = historicalData.get(historicalData.size() - 1).getClose();
+
+        FinancialAssetVolatility financialAssetVolatility = new FinancialAssetVolatility();
+        financialAssetVolatility.setTicker(result.getSymbol());
+        financialAssetVolatility.setClosePrice(closePrice);
+        financialAssetVolatility.setAtr14(atr14);
+        financialAssetVolatility.setRecordTimestamp(Timestamp.valueOf(LocalDateTime.now()));
+
+        financialAssetVolatilityRepository.save(financialAssetVolatility);
+        System.out.println("Dados de volatilidade salvos para: " + result.getSymbol());
+
+        } catch (Exception e) {
+            System.err.println("Falha ao processar o ticker: " + stock + " - Erro: " + e.getMessage());
+        }
+    }
 
 
     @Transactional
